@@ -17,32 +17,32 @@
 </template>
 
 <script>
-import { defineComponent } from 'vue'
-import Clock from '@/components/Clock'
+import Clock from '@/components/Clock';
+import { defineComponent } from 'vue';
 
 export default defineComponent ({
-  name: 'Timer',
   components: { Clock },
   data () {
     return {
-      timeInSeconds: 0,
+      isRunning: false,
       stopwatch: 0,
-      isRunning: false
-    }
+      timeInSeconds: 0
+    };
   },
   methods: {
     startCountdown () {
-      this.isRunning = true
+      this.isRunning = true;
       this.stopwatch = setInterval(() => {
         this.timeInSeconds += 1;
-      }, 1000)
+      }, 1000);
     },
     stopCountdown () {
       this.isRunning = false;
       clearInterval(this.stopwatch);
     }
-  }
-})
+  },
+  name: 'Timer'
+});
 </script>
 
 <style scoped>

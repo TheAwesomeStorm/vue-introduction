@@ -11,7 +11,7 @@
 
   export default defineComponent ({
     name: "LateralMenu"
-  })
+  });
 </script>
 
 <style scoped>

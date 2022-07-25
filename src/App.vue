@@ -10,16 +10,16 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from 'vue';
 import LateralMenu from '@/components/LateralMenu.vue';
 import TaskForms from '@/components/TaskForms.vue';
+import { defineComponent } from 'vue';
 
 export default defineComponent({
-  name: 'App',
   components: {
     LateralMenu,
     TaskForms
-  }
+  },
+  name: 'App'
 });
 </script>
 

@@ -12,15 +12,15 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from 'vue';
 import Timer from '@/components/Timer.vue';
+import { defineComponent } from 'vue';
 
 export default defineComponent({
-  name: 'TaskForms',
   components: {
     Timer
   },
-})
+  name: 'TaskForms',
+});
 </script>
 
 <style scoped>
