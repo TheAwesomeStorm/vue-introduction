@@ -1,9 +1,9 @@
 <template>
-  <main class="columns is-gapless is-multiline">
+  <main class="columns is-gapless is-multiline" :class="{ 'dark-mode': isDarkModeEnabled }">
     <div class="column is-one-quarter">
-      <LateralMenu />
+      <LateralMenu @onThemeChanged="changeTheme" />
     </div>
-    <div class="column is-three-quarters">
+    <div class="column is-three-quarters content">
       <TaskForms @onTaskCompleted="saveTask" />
       <ul class="list">
         <Task v-for="(task, index) in tasks" :key="index" :task="task" />
@@ -37,10 +37,14 @@ export default defineComponent({
   },
   data () {
     return {
+      isDarkModeEnabled: false,
       tasks: [] as ITask[]
     };
   },
   methods: {
+    changeTheme (isDarkModeEnabled: boolean) {
+      this.isDarkModeEnabled = isDarkModeEnabled;
+    },
     saveTask (task: ITask) {
       this.tasks.push(task);
     }
@@ -53,7 +57,18 @@ export default defineComponent({
   body {
     margin: 0;
   }
+  main {
+    --default-bg-color: #ffffff;
+    --default-text-color: #000000;
+  }
+  main.dark-mode {
+    --default-bg-color: #2b2d42;
+    --default-text-color: #dddddd;
+  }
   .list {
     padding: 1.25rem;
+  }
+  .content {
+    background-color: var(--default-bg-color);
   }
 </style>
