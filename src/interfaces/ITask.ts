@@ -1,4 +1,7 @@
+import { IProject } from '@/interfaces/IProject';
+
 export interface ITask {
     description: string,
-    durationInSeconds: number
+    durationInSeconds: number,
+    project: IProject
 }

@@ -34,8 +34,8 @@
 </template>
 
 <script lang='ts'>
-import { IProject } from '@/interfaces/IProject';
-import {defineComponent} from "vue";
+import { useCustomStore } from '@/store';
+import { computed, defineComponent } from 'vue';
 
 export default defineComponent ({
   computed: {
@@ -45,21 +45,23 @@ export default defineComponent ({
   },
   data () {
     return {
-      projectName: '',
-      projects: [] as IProject[]
+      projectName: ''
     };
   },
   methods: {
     save () {
-      const project: IProject = {
-        id: new Date().toISOString(),
-        name: this.projectName
-      };
-      this.projects.push(project);
+      this.store.commit('ADD_PROJECT', this.projectName);
       this.projectName = '';
     }
   },
-  name: "ProjectsPage"
+  name: "ProjectsPage",
+  setup () {
+    const store = useCustomStore();
+    return {
+      projects: computed(() => store.state.projects ),
+      store
+    };
+  }
 });
 </script>
 
