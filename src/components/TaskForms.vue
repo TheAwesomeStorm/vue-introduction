@@ -24,10 +24,15 @@ export default defineComponent({
       description: ''
     };
   },
+  emits: [
+      'onTaskCompleted'
+  ],
   methods: {
     endTask (totalTimeElapsed: number): void {
-      console.log(totalTimeElapsed);
-      console.log(this.description);
+      this.$emit('onTaskCompleted', {
+        description: this.description,
+        durationInSeconds: totalTimeElapsed
+      });
       this.description = '';
     }
   },

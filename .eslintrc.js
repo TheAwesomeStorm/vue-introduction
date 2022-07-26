@@ -15,7 +15,7 @@ module.exports = {
     'no-console': process.env.NODE_ENV === 'production' ? 'warn' : 'off',
     'no-debugger': process.env.NODE_ENV === 'production' ? 'warn' : 'off',
     'semi': ['error', 'always'],
-    'sort-imports': ['error'],
+    'sort-imports': ['error', {'memberSyntaxSortOrder': ['none', 'all', 'single', 'multiple']}],
     'sort-keys': ['error', 'asc', {'natural': false}],
     'vue/multi-word-component-names': 'off'
   }
