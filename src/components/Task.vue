@@ -1,9 +1,10 @@
 <template>
   <BoldedBox>
     <div class="columns">
-      <div class="column is-7">
+      <div class="column is-4">
         {{task.description || 'Generic task' }}
       </div>
+      <div class='column is-3'> {{task.project?.name || 'N/D' }} </div>
       <div class="column">
         <Clock :time-in-seconds="task.durationInSeconds" />
       </div>
