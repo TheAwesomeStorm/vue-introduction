@@ -16,6 +16,7 @@
 
 <script lang='ts'>
 import { Mutation } from '@/store/mutation';
+import { NotificationTypes } from '@/interfaces/INotification';
 import { useCustomStore } from '@/store';
 import { computed, defineComponent } from 'vue';
 
@@ -43,6 +44,11 @@ export default defineComponent ({
     },
     save () {
       this.store.commit(Mutation.ADD_PROJECT, this.projectName);
+      this.store.commit(Mutation.NOTIFICATE, {
+        message: 'New project available',
+        title: 'Project saved',
+        type: NotificationTypes.success
+      });
     }
   },
   mounted () {

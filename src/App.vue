@@ -4,6 +4,7 @@
       <LateralMenu @onThemeChanged="changeTheme" />
     </div>
     <div class="column is-three-quarters content">
+      <Notification />
       <router-view />
     </div>
   </main>
@@ -11,11 +12,13 @@
 
 <script lang="ts">
 import LateralMenu from '@/components/LateralMenu.vue';
+import Notification from '@/components/Notification.vue';
 import { defineComponent } from 'vue';
 
 export default defineComponent({
   components: {
-    LateralMenu
+    LateralMenu,
+    Notification
   },
   data () {
     return {
