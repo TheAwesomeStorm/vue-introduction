@@ -1,5 +1,5 @@
 <template>
-  <li class="box has-text-weight-bold">
+  <li class="box has-text-weight-bold" :style="styles">
     <slot />
   </li>
 </template>
@@ -8,12 +8,13 @@
 import { defineComponent } from 'vue';
 
 export default defineComponent ({
+  data () {
+    return {
+      styles: {
+        backgroundColor: '#FAF0CA'
+      }
+    };
+  },
   name: 'BoldedBox'
 });
 </script>
-
-<style scoped>
-.box {
-  background: #FAF0CA;
-}
-</style>
