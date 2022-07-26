@@ -66,7 +66,5 @@ export default defineComponent ({
 </script>
 
 <style scoped>
-  form {
-    padding: 1.25rem;
-  }
+
 </style>

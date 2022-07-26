@@ -1,4 +1,10 @@
 <template>
+  <router-link to='/projects/new' class='button'>
+      <span class='icon is-small'>
+        <i class='fas fa-plus' />
+      </span>
+    <span>New project</span>
+  </router-link>
   <table class='table is-fullwidth'>
     <thead>
     <tr>
@@ -12,7 +18,7 @@
       <td>{{ project.id }}</td>
       <td>{{ project.name }}</td>
       <td>
-        <router-link :to='`/projects/edit/${project.id}`' class='button'>
+        <router-link :to='`/projects/${project.id}`' class='button'>
               <span class='icon is-small'>
               <i class='fas fa-pencil-alt' />
             </span>

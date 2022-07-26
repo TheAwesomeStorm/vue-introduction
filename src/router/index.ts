@@ -1,4 +1,5 @@
 import ProjectForms from '@/components/ProjectForms.vue';
+import ProjectTable from '@/components/ProjectTable.vue';
 import ProjectsPage from '@/views/ProjectsPage.vue';
 import TaskPage from '@/views/TaskPage.vue';
 import { RouteRecordRaw, createRouter, createWebHashHistory } from 'vue-router';
@@ -10,21 +11,27 @@ const routes: RouteRecordRaw[] = [
         path: '/'
     },
     {
+        children: [
+            {
+                component: ProjectTable,
+                name: 'Projects',
+                path: ''
+            },
+            {
+                component: ProjectForms,
+                name: 'NewProject',
+                path: 'new'
+            },
+            {
+                component: ProjectForms,
+                name: 'EditProject',
+                path: ':id',
+                props: true
+            }
+        ],
         component: ProjectsPage,
-        name: 'Projects',
         path: '/projects'
     },
-    {
-        component: ProjectForms,
-        name: 'NewProject',
-        path: '/projects/new'
-    },
-    {
-        component: ProjectForms,
-        name: 'EditProject',
-        path: '/projects/edit/:id',
-        props: true
-    }
 ];
 
 export const router = createRouter({
