@@ -17,6 +17,7 @@
 <script lang='ts'>
 import { Mutation } from '@/store/mutation';
 import { NotificationTypes } from '@/interfaces/INotification';
+import { notificationMixin } from '@/mixins/notify';
 import { useCustomStore } from '@/store';
 import { computed, defineComponent } from 'vue';
 
@@ -37,6 +38,7 @@ export default defineComponent ({
         id: this.id,
         name: this.projectName
       });
+      this.notify(NotificationTypes.warning, 'Name changed', 'Project name was changed by the user');
     },
     onFormSubmit () {
       this.id === undefined ? this.save() : this.edit();
@@ -44,13 +46,12 @@ export default defineComponent ({
     },
     save () {
       this.store.commit(Mutation.ADD_PROJECT, this.projectName);
-      this.store.commit(Mutation.NOTIFICATE, {
-        message: 'New project available',
-        title: 'Project saved',
-        type: NotificationTypes.success
-      });
+      this.notify(NotificationTypes.success, 'Success!', 'New project added');
     }
   },
+  mixins: [
+      notificationMixin
+  ],
   mounted () {
     if (!this.id) return;
     const project = this.store.state.projects.find(project => project.id === this.id);
