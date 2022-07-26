@@ -2,10 +2,10 @@
   <div class="box">
     <div class="columns">
       <div class="column is-8" role="form" aria-label="A form to create new tasks">
-        <input type="text" class="input" placeholder="Write a task to start">
+        <input type="text" class="input" placeholder="Write a task to start" v-model="description">
       </div>
       <div class="column">
-        <Timer />
+        <Timer @onTimerStopped="endTask" />
       </div>
     </div>
   </div>
@@ -18,6 +18,18 @@ import { defineComponent } from 'vue';
 export default defineComponent({
   components: {
     Timer
+  },
+  data () {
+    return {
+      description: ''
+    };
+  },
+  methods: {
+    endTask (totalTimeElapsed: number): void {
+      console.log(totalTimeElapsed);
+      console.log(this.description);
+      this.description = '';
+    }
   },
   name: 'TaskForms',
 });

@@ -1,27 +1,21 @@
 <template>
   <div class="is-flex is-align-items-center is-justify-content-space-between">
     <Clock :time-in-seconds="timeInSeconds" />
-    <button class="button" @click="startCountdown" :disabled="isRunning">
-            <span class="icon">
-              <i class="fas fa-play" />
-            </span>
-      <span>Play</span>
-    </button>
-    <button class="button" @click="stopCountdown" :disabled="!isRunning">
-            <span class="icon">
-              <i class="fas fa-stop" />
-            </span>
-      <span>Stop</span>
-    </button>
+    <IconButton text="Play" @click="startCountdown" icon="fas fa-play" :isDisabled="isRunning" />
+    <IconButton text="Stop" @click="stopCountdown" icon="fas fa-stop" :isDisabled="!isRunning" />
   </div>
 </template>
 
 <script>
 import Clock from '@/components/Clock';
+import IconButton from '@/components/IconButton';
 import { defineComponent } from 'vue';
 
 export default defineComponent ({
-  components: { Clock },
+  components: {
+    Clock,
+    IconButton
+  },
   data () {
     return {
       isRunning: false,
@@ -29,6 +23,7 @@ export default defineComponent ({
       timeInSeconds: 0
     };
   },
+  emits: ['onTimerStopped'],
   methods: {
     startCountdown () {
       this.isRunning = true;
@@ -39,6 +34,8 @@ export default defineComponent ({
     stopCountdown () {
       this.isRunning = false;
       clearInterval(this.stopwatch);
+      this.$emit('onTimerStopped', this.timeInSeconds);
+      this.timeInSeconds = 0;
     }
   },
   name: 'Timer'
