@@ -5,7 +5,7 @@
       </span>
     <span>New project</span>
   </router-link>
-  <table class='table is-fullwidth'>
+  <table class='table is-fullwidth mt-4'>
     <thead>
     <tr>
       <th>ID</th>
@@ -33,13 +33,14 @@
 </template>
 
 <script lang='ts'>
+import { Mutation } from '@/store/mutation';
 import { useCustomStore } from '@/store';
 import { computed, defineComponent } from 'vue';
 
 export default defineComponent ({
   methods: {
     deleteProject (projectId: string) {
-      this.store.commit('DELETE_PROJECT', projectId);
+      this.store.commit(Mutation.DELETE_PROJECT, projectId);
     }
   },
   name: "ProjectTable",

@@ -15,6 +15,7 @@
 </template>
 
 <script lang='ts'>
+import { Mutation } from '@/store/mutation';
 import { useCustomStore } from '@/store';
 import { computed, defineComponent } from 'vue';
 
@@ -31,7 +32,7 @@ export default defineComponent ({
   },
   methods: {
     edit () {
-      this.store.commit('EDIT_PROJECT', {
+      this.store.commit(Mutation.EDIT_PROJECT, {
         id: this.id,
         name: this.projectName
       });
@@ -41,7 +42,7 @@ export default defineComponent ({
       this.$router.push('/projects');
     },
     save () {
-      this.store.commit('ADD_PROJECT', this.projectName);
+      this.store.commit(Mutation.ADD_PROJECT, this.projectName);
     }
   },
   mounted () {

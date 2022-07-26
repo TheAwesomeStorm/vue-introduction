@@ -1,0 +1,5 @@
+export enum Mutation {
+  'ADD_PROJECT'= 'ADD_PROJECT',
+  'DELETE_PROJECT' = 'DELETE_PROJECT',
+  'EDIT_PROJECT' = 'EDIT_PROJECT'
+}
