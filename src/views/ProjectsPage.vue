@@ -9,48 +9,27 @@
       </span>
       <span>New project</span>
     </router-link>
-    <table class='table is-fullwidth'>
-      <thead>
-        <tr>
-          <th>ID</th>
-          <th>Name</th>
-          <th>Actions</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr v-for='project in projects' :key='project.id'>
-          <td>{{ project.id }}</td>
-          <td>{{ project.name }}</td>
-          <td>
-            <router-link :to='`/projects/edit/${project.id}`' class='button'>
-              <span class='icon is-small'>
-              <i class='fas fa-pencil-alt' />
-            </span>
-            </router-link>
-          </td>
-        </tr>
-      </tbody>
-    </table>
+    <ProjectTable class='mt-4' />
   </section>
 </template>
 
 <script lang='ts'>
-import { useCustomStore } from '@/store';
-import { computed, defineComponent } from 'vue';
+import ProjectTable from '@/components/ProjectTable.vue';
+import { defineComponent } from 'vue';
 
 export default defineComponent ({
-  name: "ProjectsPage",
-  setup () {
-    const store = useCustomStore();
-    return {
-      projects: computed(() => store.state.projects)
-    };
-  }
+  components: {
+    ProjectTable
+  },
+  name: "ProjectsPage"
 });
 </script>
 
 <style scoped>
   .projects {
     padding: 1.25rem;
+  }
+  .title {
+    color: var(--default-text-color);
   }
 </style>
