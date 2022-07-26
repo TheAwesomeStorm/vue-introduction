@@ -15,9 +15,9 @@
 </template>
 
 <script lang='ts'>
+import { GetNotifier }  from '@/hooks/notifier';
 import { Mutation } from '@/store/mutation';
 import { NotificationTypes } from '@/interfaces/INotification';
-import { notificationMixin } from '@/mixins/notify';
 import { useCustomStore } from '@/store';
 import { computed, defineComponent } from 'vue';
 
@@ -49,9 +49,6 @@ export default defineComponent ({
       this.notify(NotificationTypes.success, 'Success!', 'New project added');
     }
   },
-  mixins: [
-      notificationMixin
-  ],
   mounted () {
     if (!this.id) return;
     const project = this.store.state.projects.find(project => project.id === this.id);
@@ -65,7 +62,9 @@ export default defineComponent ({
   },
   setup () {
     const store = useCustomStore();
+    const { notify } = GetNotifier();
     return {
+      notify,
       projects: computed(() => store.state.projects ),
       store
     };

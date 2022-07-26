@@ -34,6 +34,8 @@
 
 <script lang='ts'>
 import { Mutation } from '@/store/mutation';
+import { NotificationTypes } from '@/interfaces/INotification';
+import { notificationMixin } from '@/mixins/notify';
 import { useCustomStore } from '@/store';
 import { computed, defineComponent } from 'vue';
 
@@ -41,8 +43,12 @@ export default defineComponent ({
   methods: {
     deleteProject (projectId: string) {
       this.store.commit(Mutation.DELETE_PROJECT, projectId);
+      this.notify(NotificationTypes.danger, 'Project delete', 'A project was deleted by the user');
     }
   },
+  mixins: [
+      notificationMixin
+  ],
   name: "ProjectTable",
   setup () {
     const store = useCustomStore();
