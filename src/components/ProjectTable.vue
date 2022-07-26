@@ -23,6 +23,9 @@
               <i class='fas fa-pencil-alt' />
             </span>
         </router-link>
+        <button class='button ml-2 is-danger' @click='deleteProject(project.id)'>
+          <i class='fas fa-trash' />
+        </button>
       </td>
     </tr>
     </tbody>
@@ -34,11 +37,17 @@ import { useCustomStore } from '@/store';
 import { computed, defineComponent } from 'vue';
 
 export default defineComponent ({
+  methods: {
+    deleteProject (projectId: string) {
+      this.store.commit('DELETE_PROJECT', projectId);
+    }
+  },
   name: "ProjectTable",
   setup () {
     const store = useCustomStore();
     return {
-      projects: computed(() => store.state.projects)
+      projects: computed(() => store.state.projects),
+      store
     };
   }
 });
