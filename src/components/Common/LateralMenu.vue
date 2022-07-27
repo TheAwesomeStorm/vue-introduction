@@ -3,7 +3,7 @@
     <div class="center">
       <div class="is-flex is-align-items-center is-flex-direction-column">
         <h1>
-          <img src="../assets/app-logo.png" alt="app-logo"/>
+          <img src="../../assets/app-logo.png" alt="app-logo"/>
         </h1>
         <button class="button" @click="changeTheme">
           {{ buttonText }}

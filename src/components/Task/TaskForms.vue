@@ -22,7 +22,7 @@
 </template>
 
 <script lang="ts">
-import Timer from '@/components/Timer.vue';
+import Timer from '@/components/Common/Timer.vue';
 import { useCustomStore } from '@/store';
 import { computed, defineComponent } from 'vue';
 

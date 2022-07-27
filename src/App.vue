@@ -11,8 +11,8 @@
 </template>
 
 <script lang="ts">
-import LateralMenu from '@/components/LateralMenu.vue';
-import Notification from '@/components/Notification.vue';
+import LateralMenu from '@/components/Common/LateralMenu.vue';
+import Notification from '@/components/Common/Notification.vue';
 import { defineComponent } from 'vue';
 
 export default defineComponent({

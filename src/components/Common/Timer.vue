@@ -7,8 +7,8 @@
 </template>
 
 <script>
-import Clock from '@/components/Clock';
-import IconButton from '@/components/IconButton';
+import Clock from '@/components/Common/Clock';
+import IconButton from '@/components/Common/IconButton';
 import { defineComponent } from 'vue';
 
 export default defineComponent ({

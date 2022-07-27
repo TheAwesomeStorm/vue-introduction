@@ -1,5 +1,5 @@
-import ProjectForms from '@/components/ProjectForms.vue';
-import ProjectTable from '@/components/ProjectTable.vue';
+import ProjectForms from '@/components/Project/ProjectForms.vue';
+import ProjectTable from '@/components/Project/ProjectTable.vue';
 import ProjectsPage from '@/views/ProjectsPage.vue';
 import TaskPage from '@/views/TaskPage.vue';
 import { RouteRecordRaw, createRouter, createWebHashHistory } from 'vue-router';

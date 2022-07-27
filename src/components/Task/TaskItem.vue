@@ -13,14 +13,14 @@
 </template>
 
 <script lang="ts">
-import BoldedBox from '@/components/BoldedBox.vue';
-import Clock from '@/components/Clock.vue';
+import BoldedBox from '@/components/Common/BoldedBox.vue';
+import Clock from '@/components/Common/Clock.vue';
 import { ITask } from '@/interfaces/ITask';
 import { PropType, defineComponent } from 'vue';
 
 export default defineComponent ({
   components: {BoldedBox, Clock},
-  name: 'Task',
+  name: 'TaskItem',
   props: {
     task: {
       required: true,

@@ -1,7 +1,7 @@
 <template>
   <TaskForms @onTaskCompleted="saveTask" />
   <ul class="list">
-    <Task v-for="(task, index) in tasks" :key="index" :task="task" />
+    <TaskItem v-for="(task, index) in tasks" :key="index" :task="task" />
     <BoldedBox v-if="isTasksEmpty">
       No tasks yet
     </BoldedBox>
@@ -9,17 +9,17 @@
 </template>
 
 <script lang="ts">
-import BoldedBox from '@/components/BoldedBox.vue';
+import BoldedBox from '@/components/Common/BoldedBox.vue';
 import { ITask } from '@/interfaces/ITask';
-import Task from '@/components/Task.vue';
-import TaskForms from '@/components/TaskForms.vue';
+import TaskForms from '@/components/Task/TaskForms.vue';
+import TaskItem from '@/components/Task/TaskItem.vue';
 import { defineComponent } from 'vue';
 
 export default defineComponent ({
   components: {
     BoldedBox,
-    Task,
-    TaskForms
+    TaskForms,
+    TaskItem
   },
   computed: {
     isTasksEmpty (): boolean {
