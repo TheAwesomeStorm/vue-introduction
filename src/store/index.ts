@@ -1,6 +1,7 @@
 import { Actions } from '@/store/actions';
 import { INotification } from '@/interfaces/INotification';
 import { IProject } from '@/interfaces/IProject';
+import { ITask } from '@/interfaces/ITask';
 import { InjectionKey } from 'vue';
 import { Mutation } from '@/store/mutation';
 import http from '@/http';
@@ -9,6 +10,7 @@ import { Store, createStore, useStore } from 'vuex';
 interface State {
   notifications: INotification[]
   projects: IProject[]
+  tasks: ITask[]
 }
 
 export function useCustomStore(): Store<State> {
@@ -25,7 +27,7 @@ export const store = createStore<State>({
       });
     },
     [Actions.READ_ALL_PROJECTS]({ commit }) {
-      http.get('/projects').then(res => commit(Mutation.READ_PROJECTS, res.data));
+      http.get('/projects').then(res => commit(Mutation.STORE_PROJECTS, res.data));
     },
     [Actions.UPDATE_PROJECT](context, project: IProject) {
       return http.put(`/projects/${project.id}`, project);
@@ -33,6 +35,22 @@ export const store = createStore<State>({
     [Actions.DELETE_PROJECT](context, id: number) {
       return http.delete(`/projects/${id}`).then(() => {
         context.commit(Mutation.DELETE_PROJECT, id);
+      });
+    },
+    [Actions.CREATE_TASK](context, task: ITask) {
+      return http.post('/tasks', task).then(response => {
+        context.commit(Mutation.ADD_TASK, response.data);
+      });
+    },
+    [Actions.READ_ALL_TASKS]({ commit }) {
+      http.get('/tasks').then(res => commit(Mutation.STORE_TASKS, res.data));
+    },
+    [Actions.UPDATE_TASK](context, task: ITask) {
+      return http.put(`/projects/${task.id}`, task);
+    },
+    [Actions.DELETE_TASK](context, id: number) {
+      return http.delete(`/tasks/${id}`).then(() => {
+        context.commit(Mutation.DELETE_TASK, id);
       });
     }
   },
@@ -51,8 +69,17 @@ export const store = createStore<State>({
       const index = state.projects.findIndex(stateProject => stateProject.id === project.id);
       state.projects[index] = project;
     },
-    [Mutation.READ_PROJECTS](state, projects: IProject[]) {
+    [Mutation.STORE_PROJECTS](state, projects: IProject[]) {
       state.projects = projects;
+    },
+    [Mutation.ADD_TASK](state, task: ITask) {
+      state.tasks.push(task);
+    },
+    [Mutation.DELETE_TASK](state, taskId: number) {
+      state.tasks = state.tasks.filter(task => task.id !== taskId);
+    },
+    [Mutation.STORE_TASKS](state, tasks: ITask[]) {
+      state.tasks = tasks;
     },
     [Mutation.NOTIFY](state, notification: INotification) {
       notification.id = new Date().getTime();
@@ -65,6 +92,7 @@ export const store = createStore<State>({
   },
   state: {
     notifications: [],
-    projects: []
+    projects: [],
+    tasks: []
   }
 });

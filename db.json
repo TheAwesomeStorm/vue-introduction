@@ -5,16 +5,32 @@
       "name": "Alura Tracker 3.0"
     },
     {
-      "id": 1,
-      "name": "teste"
-    },
-    {
       "id": 2,
       "name": "Vue"
     },
     {
       "id": 3,
       "name": "Vuex"
+    }
+  ],
+  "tasks": [
+    {
+      "id": 0,
+      "description": "Estudar Vue",
+      "durationInSeconds": 5,
+      "project": {
+        "id": 0,
+        "name": "Alura Tracker 3.0"
+      }
+    },
+    {
+      "description": "teste",
+      "durationInSeconds": 3,
+      "project": {
+        "id": 0,
+        "name": "Alura Tracker 3.0"
+      },
+      "id": 1
     }
   ]
 }
