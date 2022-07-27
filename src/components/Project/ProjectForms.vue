@@ -15,7 +15,8 @@
 </template>
 
 <script lang='ts'>
-import { GetNotifier }  from '@/hooks/notifier';
+import { Actions } from '@/store/actions';
+import { GetNotifier } from '@/hooks/notifier';
 import { Mutation } from '@/store/mutation';
 import { NotificationTypes } from '@/interfaces/INotification';
 import { useCustomStore } from '@/store';
@@ -45,8 +46,13 @@ export default defineComponent ({
       this.$router.push('/projects');
     },
     save () {
-      this.store.commit(Mutation.ADD_PROJECT, this.projectName);
-      this.notify(NotificationTypes.success, 'Success!', 'New project added');
+      this.store.dispatch(Actions.CREATE_PROJECTS, this.projectName)
+          .then(() => {
+            this.notify(NotificationTypes.success, 'Success!', 'New project added');
+          })
+          .catch(() => {
+            this.notify(NotificationTypes.danger, 'Failed!', "Something went wrong when creating a new project");
+          });
     }
   },
   mounted () {

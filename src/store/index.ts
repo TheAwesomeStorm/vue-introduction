@@ -19,8 +19,13 @@ export const storeStateKey: InjectionKey<Store<State>> = Symbol();
 
 export const store = createStore<State>({
   actions: {
+    [Actions.CREATE_PROJECTS](context, projectName: string) {
+      return http.post('/projects', {
+        name: projectName
+      }).then();
+    },
     [Actions.READ_PROJECTS]({ commit }) {
-      http.get('projects').then(res => commit(Mutation.READ_PROJECTS, res.data));
+      http.get('/projects').then(res => commit(Mutation.READ_PROJECTS, res.data));
     }
   },
   mutations: {
