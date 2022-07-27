@@ -4,7 +4,7 @@
       <label for='projectName' class='label'>
         Project Name
       </label>
-      <input type='text' class='input' v-model='projectName' id='projectName'>
+      <input type='text' class='input' v-model='projectName' id='projectName' :placeholder='projectName'>
     </div>
     <div class='field'>
       <button class='button' type='submit' :disabled='isProjectNameEmpty'>
@@ -17,7 +17,6 @@
 <script lang='ts'>
 import { Actions } from '@/store/actions';
 import { GetNotifier } from '@/hooks/notifier';
-import { Mutation } from '@/store/mutation';
 import { NotificationTypes } from '@/interfaces/INotification';
 import { useCustomStore } from '@/store';
 import { computed, defineComponent } from 'vue';
@@ -35,18 +34,26 @@ export default defineComponent ({
   },
   methods: {
     edit () {
-      this.store.commit(Mutation.EDIT_PROJECT, {
+      return this.store.dispatch(Actions.UPDATE_PROJECT, {
         id: this.id,
         name: this.projectName
-      });
-      this.notify(NotificationTypes.warning, 'Name changed', 'Project name was changed by the user');
+      })
+          .then(() => {
+            this.notify(NotificationTypes.warning, 'Name changed', 'Project name was changed by the user');
+          })
+          .catch(() => {
+            this.notify(NotificationTypes.danger, 'Failed!', 'Failed to change project name');
+          });
     },
     onFormSubmit () {
-      this.id === undefined ? this.save() : this.edit();
-      this.$router.push('/projects');
+      let response: Promise<unknown>;
+      this.id === undefined ? response = this.save() : response = this.edit();
+      response.then(() => {
+        this.$router.push('/projects');
+      });
     },
     save () {
-      this.store.dispatch(Actions.CREATE_PROJECTS, this.projectName)
+      return this.store.dispatch(Actions.CREATE_PROJECTS, this.projectName)
           .then(() => {
             this.notify(NotificationTypes.success, 'Success!', 'New project added');
           })
@@ -57,7 +64,7 @@ export default defineComponent ({
   },
   mounted () {
     if (!this.id) return;
-    const project = this.store.state.projects.find(project => project.id === this.id);
+    const project = this.store.state.projects.find(project => project.id == this.id);
     this.projectName = project?.name || '';
   },
   name: "ProjectForms",

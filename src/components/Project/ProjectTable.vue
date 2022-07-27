@@ -53,7 +53,7 @@ export default defineComponent ({
   name: "ProjectTable",
   setup () {
     const store = useCustomStore();
-    store.dispatch(Actions.READ_PROJECTS);
+    store.dispatch(Actions.READ_ALL_PROJECTS);
     return {
       projects: computed(() => store.state.projects),
       store

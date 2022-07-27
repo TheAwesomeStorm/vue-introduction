@@ -22,9 +22,12 @@ export const store = createStore<State>({
     [Actions.CREATE_PROJECTS](context, projectName: string) {
       return http.post('/projects', {
         name: projectName
-      }).then();
+      });
     },
-    [Actions.READ_PROJECTS]({ commit }) {
+    [Actions.UPDATE_PROJECT](context, project: IProject) {
+      return http.put(`/projects/${project.id}`, project);
+    },
+    [Actions.READ_ALL_PROJECTS]({ commit }) {
       http.get('/projects').then(res => commit(Mutation.READ_PROJECTS, res.data));
     }
   },
