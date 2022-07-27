@@ -53,7 +53,7 @@ export default defineComponent ({
       });
     },
     save () {
-      return this.store.dispatch(Actions.CREATE_PROJECTS, this.projectName)
+      return this.store.dispatch(Actions.CREATE_PROJECT, this.projectName)
           .then(() => {
             this.notify(NotificationTypes.success, 'Success!', 'New project added');
           })
@@ -64,7 +64,7 @@ export default defineComponent ({
   },
   mounted () {
     if (!this.id) return;
-    const project = this.store.state.projects.find(project => project.id == this.id);
+    const project = this.store.state.projects.find(project => project.id.toString() === this.id);
     this.projectName = project?.name || '';
   },
   name: "ProjectForms",

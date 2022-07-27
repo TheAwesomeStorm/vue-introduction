@@ -33,7 +33,7 @@ export default defineComponent({
   data () {
     return {
       description: '',
-      projectId: ''
+      projectId: -1
     };
   },
   emits: [

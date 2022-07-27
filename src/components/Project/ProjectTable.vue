@@ -34,7 +34,6 @@
 
 <script lang='ts'>
 import { Actions } from '@/store/actions';
-import { Mutation } from '@/store/mutation';
 import { NotificationTypes } from '@/interfaces/INotification';
 import { notificationMixin } from '@/mixins/notify';
 import { useCustomStore } from '@/store';
@@ -42,9 +41,10 @@ import { computed, defineComponent } from 'vue';
 
 export default defineComponent ({
   methods: {
-    deleteProject (projectId: string) {
-      this.store.commit(Mutation.DELETE_PROJECT, projectId);
-      this.notify(NotificationTypes.danger, 'Project delete', 'A project was deleted by the user');
+    deleteProject (projectId: number) {
+      this.store.dispatch(Actions.DELETE_PROJECT, projectId).then(() => {
+        this.notify(NotificationTypes.danger, 'Project delete', 'A project was deleted by the user');
+      });
     }
   },
   mixins: [

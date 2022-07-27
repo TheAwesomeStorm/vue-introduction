@@ -19,27 +19,32 @@ export const storeStateKey: InjectionKey<Store<State>> = Symbol();
 
 export const store = createStore<State>({
   actions: {
-    [Actions.CREATE_PROJECTS](context, projectName: string) {
+    [Actions.CREATE_PROJECT](context, projectName: string) {
       return http.post('/projects', {
         name: projectName
       });
     },
+    [Actions.READ_ALL_PROJECTS]({ commit }) {
+      http.get('/projects').then(res => commit(Mutation.READ_PROJECTS, res.data));
+    },
     [Actions.UPDATE_PROJECT](context, project: IProject) {
       return http.put(`/projects/${project.id}`, project);
     },
-    [Actions.READ_ALL_PROJECTS]({ commit }) {
-      http.get('/projects').then(res => commit(Mutation.READ_PROJECTS, res.data));
+    [Actions.DELETE_PROJECT](context, id: number) {
+      return http.delete(`/projects/${id}`).then(() => {
+        context.commit(Mutation.DELETE_PROJECT, id);
+      });
     }
   },
   mutations: {
     [Mutation.ADD_PROJECT](state, projectName: string) {
       const project: IProject = {
-        id: new Date().toISOString(),
+        id: Math.floor(Math.random() * (999 - 100 + 1)) + 100,
         name: projectName
       };
       state.projects.push(project);
     },
-    [Mutation.DELETE_PROJECT](state, projectId: string) {
+    [Mutation.DELETE_PROJECT](state, projectId: number) {
       state.projects = state.projects.filter(project => project.id !== projectId);
     },
     [Mutation.EDIT_PROJECT](state, project: IProject) {
