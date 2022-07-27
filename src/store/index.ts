@@ -46,7 +46,9 @@ export const store = createStore<State>({
       http.get('/tasks').then(res => commit(Mutation.STORE_TASKS, res.data));
     },
     [Actions.UPDATE_TASK](context, task: ITask) {
-      return http.put(`/projects/${task.id}`, task);
+      return http.put(`/tasks/${task.id}`, task).then(() => {
+        context.commit(Mutation.EDIT_TASK, task);
+      });
     },
     [Actions.DELETE_TASK](context, id: number) {
       return http.delete(`/tasks/${id}`).then(() => {
@@ -77,6 +79,10 @@ export const store = createStore<State>({
     },
     [Mutation.DELETE_TASK](state, taskId: number) {
       state.tasks = state.tasks.filter(task => task.id !== taskId);
+    },
+    [Mutation.EDIT_TASK](state, task: ITask) {
+      const index = state.tasks.findIndex(stateTask => stateTask.id === task.id);
+      state.tasks[index] = task;
     },
     [Mutation.STORE_TASKS](state, tasks: ITask[]) {
       state.tasks = tasks;
