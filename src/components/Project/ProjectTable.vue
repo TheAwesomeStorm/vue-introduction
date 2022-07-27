@@ -33,6 +33,7 @@
 </template>
 
 <script lang='ts'>
+import { Actions } from '@/store/actions';
 import { Mutation } from '@/store/mutation';
 import { NotificationTypes } from '@/interfaces/INotification';
 import { notificationMixin } from '@/mixins/notify';
@@ -52,6 +53,7 @@ export default defineComponent ({
   name: "ProjectTable",
   setup () {
     const store = useCustomStore();
+    store.dispatch(Actions.READ_PROJECTS);
     return {
       projects: computed(() => store.state.projects),
       store

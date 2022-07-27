@@ -5,7 +5,7 @@ import { store } from '@/store';
 export const notificationMixin =  {
   methods: {
     notify(type: NotificationTypes, title: string, message: string) {
-      store.commit(Mutation.NOTIFICATE, {
+      store.commit(Mutation.NOTIFY, {
         message,
         title,
         type

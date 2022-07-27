@@ -1,7 +1,9 @@
+import { Actions } from '@/store/actions';
 import { INotification } from '@/interfaces/INotification';
 import { IProject } from '@/interfaces/IProject';
 import { InjectionKey } from 'vue';
 import { Mutation } from '@/store/mutation';
+import http from '@/http';
 import { Store, createStore, useStore } from 'vuex';
 
 interface State {
@@ -16,6 +18,11 @@ export function useCustomStore(): Store<State> {
 export const storeStateKey: InjectionKey<Store<State>> = Symbol();
 
 export const store = createStore<State>({
+  actions: {
+    [Actions.READ_PROJECTS]({ commit }) {
+      http.get('projects').then(res => commit(Mutation.READ_PROJECTS, res.data));
+    }
+  },
   mutations: {
     [Mutation.ADD_PROJECT](state, projectName: string) {
       const project: IProject = {
@@ -31,7 +38,10 @@ export const store = createStore<State>({
       const index = state.projects.findIndex(stateProject => stateProject.id === project.id);
       state.projects[index] = project;
     },
-    [Mutation.NOTIFICATE](state, notification: INotification) {
+    [Mutation.READ_PROJECTS](state, projects: IProject[]) {
+      state.projects = projects;
+    },
+    [Mutation.NOTIFY](state, notification: INotification) {
       notification.id = new Date().getTime();
       state.notifications.push(notification);
       setTimeout(() => {
@@ -42,19 +52,6 @@ export const store = createStore<State>({
   },
   state: {
     notifications: [],
-    projects: [
-      {
-        id: '0',
-        name: 'Typescript'
-      },
-      {
-        id: '1',
-        name: 'Vue'
-      },
-      {
-        id: '2',
-        name: 'Vuex'
-      }
-    ]
+    projects: []
   }
 });
