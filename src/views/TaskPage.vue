@@ -61,7 +61,7 @@ export default defineComponent ({
     store.dispatch(Actions.READ_ALL_PROJECTS);
     return {
       store,
-      tasks: computed(() => store.state.tasks)
+      tasks: computed(() => store.state.task.tasks)
     };
   }
 });

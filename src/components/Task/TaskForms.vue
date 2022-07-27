@@ -53,7 +53,7 @@ export default defineComponent({
   setup () {
     const store = useCustomStore();
     return {
-      projects: computed(() => store.state.projects)
+      projects: computed(() => store.state.project.projects)
     };
   }
 });

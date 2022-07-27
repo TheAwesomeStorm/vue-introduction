@@ -64,7 +64,7 @@ export default defineComponent ({
   },
   mounted () {
     if (!this.id) return;
-    const project = this.store.state.projects.find(project => project.id.toString() === this.id);
+    const project = this.store.state.project.projects.find(project => project.id.toString() === this.id);
     this.projectName = project?.name || '';
   },
   name: "ProjectForms",
@@ -78,7 +78,7 @@ export default defineComponent ({
     const { notify } = GetNotifier();
     return {
       notify,
-      projects: computed(() => store.state.projects ),
+      projects: computed(() => store.state.project.projects ),
       store
     };
   }

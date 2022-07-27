@@ -19,7 +19,7 @@ export default defineComponent ({
   setup () {
     const store = useCustomStore();
     return {
-      notifications: computed(() => store.state.notifications)
+      notifications: computed(() => store.state.notification.notifications)
     };
   }
 });

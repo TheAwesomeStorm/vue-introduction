@@ -55,7 +55,7 @@ export default defineComponent ({
     const store = useCustomStore();
     store.dispatch(Actions.READ_ALL_PROJECTS);
     return {
-      projects: computed(() => store.state.projects),
+      projects: computed(() => store.state.project.projects),
       store
     };
   }
