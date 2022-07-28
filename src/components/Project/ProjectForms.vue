@@ -19,7 +19,8 @@ import { Actions } from '@/store/actions';
 import { GetNotifier } from '@/hooks/notifier';
 import { NotificationTypes } from '@/interfaces/INotification';
 import { useCustomStore } from '@/store';
-import { computed, defineComponent } from 'vue';
+import { useRouter } from 'vue-router';
+import { defineComponent, ref } from 'vue';
 
 export default defineComponent ({
   computed: {
@@ -27,59 +28,57 @@ export default defineComponent ({
       return this.projectName.length === 0;
     }
   },
-  data () {
-    return {
-      projectName: ''
-    };
-  },
-  methods: {
-    edit () {
-      return this.store.dispatch(Actions.UPDATE_PROJECT, {
-        id: this.id,
-        name: this.projectName
-      })
-          .then(() => {
-            this.notify(NotificationTypes.warning, 'Name changed', 'Project name was changed by the user');
-          })
-          .catch(() => {
-            this.notify(NotificationTypes.danger, 'Failed!', 'Failed to change project name');
-          });
-    },
-    onFormSubmit () {
-      let response: Promise<unknown>;
-      this.id === undefined ? response = this.save() : response = this.edit();
-      response.then(() => {
-        this.$router.push('/projects');
-      });
-    },
-    save () {
-      return this.store.dispatch(Actions.CREATE_PROJECT, this.projectName)
-          .then(() => {
-            this.notify(NotificationTypes.success, 'Success!', 'New project added');
-          })
-          .catch(() => {
-            this.notify(NotificationTypes.danger, 'Failed!', "Something went wrong when creating a new project");
-          });
-    }
-  },
-  mounted () {
-    if (!this.id) return;
-    const project = this.store.state.project.projects.find(project => project.id.toString() === this.id);
-    this.projectName = project?.name || '';
-  },
   name: "ProjectForms",
   props: {
     id: {
       type: String
     }
   },
-  setup () {
+  setup (props) {
     const store = useCustomStore();
+    const router = useRouter();
     const { notify } = GetNotifier();
+    const projectName = ref('');
+
+    if (props.id) {
+      const project = store.state.project.projects.find(project => project.id.toString() === props.id);
+      projectName.value = project?.name || '';
+    }
+
+    const save = () => {
+      return store.dispatch(Actions.CREATE_PROJECT, projectName.value)
+          .then(() => {
+            notify(NotificationTypes.success, 'Success!', 'New project added');
+          })
+          .catch(() => {
+            notify(NotificationTypes.danger, 'Failed!', "Something went wrong when creating a new project");
+          });
+    };
+
+    const edit = () => {
+      return store.dispatch(Actions.UPDATE_PROJECT, {
+        id: props.id,
+        name: projectName.value
+      })
+          .then(() => {
+            notify(NotificationTypes.warning, 'Name changed', 'Project name was changed by the user');
+          })
+          .catch(() => {
+            notify(NotificationTypes.danger, 'Failed!', 'Failed to change project name');
+          });
+    };
+
+    const onFormSubmit = () => {
+      let response: Promise<unknown>;
+      props.id === undefined ? response = save() : response = edit();
+      response.then(() => {
+        router.push('/projects');
+      });
+    };
+
     return {
-      notify,
-      projects: computed(() => store.state.project.projects ),
-      store
+      onFormSubmit,
+      projectName
     };
   }
 });
