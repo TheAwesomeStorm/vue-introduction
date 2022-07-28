@@ -16,8 +16,10 @@ export const task: Module<TaskState, State> = {
         context.commit(Mutation.ADD_TASK, response.data);
       });
     },
-    [Actions.READ_ALL_TASKS]({ commit }) {
-      http.get('/tasks').then(res => commit(Mutation.STORE_TASKS, res.data));
+    [Actions.READ_ALL_TASKS]({ commit }, filter?: string) {
+      let url = 'tasks';
+      if (filter) url += `?description=${filter}`;
+      http.get(url).then(res => commit(Mutation.STORE_TASKS, res.data));
     },
     [Actions.UPDATE_TASK](context, task: ITask) {
       return http.put(`/tasks/${task.id}`, task).then(() => {
