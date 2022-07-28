@@ -24,13 +24,13 @@
       }
     },
     {
-      "description": "testes",
-      "durationInSeconds": 3,
-      "id": 1,
+      "description": "Estudar NBox",
+      "durationInSeconds": 2,
       "project": {
-        "id": 3,
-        "name": "Vuex"
-      }
+        "id": 2,
+        "name": "Vue"
+      },
+      "id": 1
     }
   ]
 }

@@ -24,36 +24,36 @@
 <script lang="ts">
 import Timer from '@/components/Common/Timer.vue';
 import { useCustomStore } from '@/store';
-import { computed, defineComponent } from 'vue';
+import { computed, defineComponent, ref } from 'vue';
 
 export default defineComponent({
   components: {
     Timer
   },
-  data () {
-    return {
-      description: '',
-      projectId: -1
-    };
-  },
   emits: [
       'onTaskCompleted'
   ],
-  methods: {
-    endTask (totalTimeElapsed: number): void {
-      this.$emit('onTaskCompleted', {
-        description: this.description,
-        durationInSeconds: totalTimeElapsed,
-        project: this.projects.find(project => project.id === this.projectId)
-      });
-      this.description = '';
-    }
-  },
   name: 'TaskForms',
-  setup () {
+  setup (props, { emit }) {
     const store = useCustomStore();
+    const description = ref('');
+    const projectId = ref(-1);
+    const projects = computed(() => store.state.project.projects);
+
+    const endTask = (totalTimeElapsed: number) => {
+      emit('onTaskCompleted', {
+        description: description.value,
+        durationInSeconds: totalTimeElapsed,
+        project: projects.value.find(project => project.id === projectId.value)
+      });
+      description.value = '';
+    };
+
     return {
-      projects: computed(() => store.state.project.projects)
+      description,
+      endTask,
+      projectId,
+      projects
     };
   }
 });
