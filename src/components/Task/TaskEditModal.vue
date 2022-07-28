@@ -1,39 +1,51 @@
 <template>
-  <div class='modal'>
-    <div class='modal-background' @click='onClose' />
-    <div class='modal-card'>
-      <header class='modal-card-head'>
-        <p class='modal-card-title'>Edit task</p>
-        <button class='delete' aria-label='close' @click='onClose'></button>
-      </header>
-      <section class='modal-card-body'>
-        <div class='field'>
-          <label for='taskDescription' class='label'>
-            Description
-          </label>
-          <input type='text' class='input' v-model="taskDescription" id="taskDescription" placeholder='Task name'>
-        </div>
-      </section>
-      <footer class='modal-card-foot'>
-        <button class='button is-success' @click='editTask'>Save changes</button>
-        <button class='button' @click='onClose'>Cancel</button>
-      </footer>
-    </div>
-  </div>
+  <Modal :on-back-ground-click="onClose" :is-shown="isModalShown">
+    <template v-slot:header>
+      <p class='modal-card-title'>Edit task</p>
+      <button class='delete' aria-label='close' @click='onClose'></button>
+    </template>
+    <template v-slot:body>
+      <div class='field'>
+        <label for='taskDescription' class='label'>
+          Description
+        </label>
+        <input type='text' class='input' v-model="computedTaskDescription" id="taskDescription" placeholder='Task name'>
+      </div>
+    </template>
+    <template v-slot:footer>
+      <button class='button is-success' @click='editTask'>Save changes</button>
+      <button class='button' @click='onClose'>Cancel</button>
+    </template>
+  </Modal>
 </template>
 
 <script lang='ts'>
+import Modal from '@/components/Common/Modal.vue';
 import { defineComponent } from 'vue';
 import { ITask, Task } from '@/interfaces/ITask';
 
 export default defineComponent ({
+  components: {
+    Modal
+  },
+  computed: {
+    computedTaskDescription: {
+      get() {
+        return this.task?.description || '';
+      },
+      set(value: string) {
+        this.taskDescription = value;
+      }
+    }
+  },
   data () {
     return {
-      taskDescription: this.task.description
+      taskDescription: ''
     };
   },
   methods: {
     editTask() {
+      if (this.task === undefined) return;
       const task: ITask = {
         description: this.taskDescription,
         durationInSeconds: this.task.durationInSeconds,
@@ -45,6 +57,10 @@ export default defineComponent ({
   },
   name: "TaskEditModal",
   props: {
+    isModalShown: {
+      required: true,
+      type: Boolean
+    },
     onClose: {
       required: true,
       type: Function
@@ -54,7 +70,7 @@ export default defineComponent ({
       type: Function
     },
     task: {
-      required: true,
+      required: false,
       type: Task
     }
   }

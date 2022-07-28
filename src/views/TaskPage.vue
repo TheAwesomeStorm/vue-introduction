@@ -14,7 +14,7 @@
       No tasks yet
     </BoldedBox>
   </ul>
-  <TaskEditModal v-if='selectedTask' :class="{ 'is-active': selectedTask }" :onClose='closeModal' :on-save='editTask' :task='task' />
+  <TaskEditModal :is-modal-shown="isModalShown" :onClose='closeModal' :on-save='editTask' :task='task' />
 </template>
 
 <script lang="ts">
@@ -35,6 +35,9 @@ export default defineComponent ({
     TaskItem
   },
   computed: {
+    isModalShown (): boolean {
+      return this.selectedTask !== null;
+    },
     isTasksEmpty (): boolean {
       return this.tasks.length === 0;
     },
@@ -66,18 +69,20 @@ export default defineComponent ({
   setup() {
     const filter = ref('');
     const store = useCustomStore();
-    const tasks = computed(() =>
-        store.state.task.tasks.filter(task =>
-            !filter.value || task.description.includes(filter.value)
-        )
-    );
 
-    /* Use the code below to filter the API instead of the Vuex state */
-    // const tasks = computed(() => store.state.task.tasks);
-    //
-    // watchEffect(() => {
-    //   store.dispatch(Actions.READ_ALL_TASKS, filter.value);
-    // });
+    /* Use the code below to filter tasks using the Vuex state */
+    // const tasks = computed(() =>
+    //     store.state.task.tasks.filter(task =>
+    //         !filter.value || task.description.includes(filter.value)
+    //     )
+    // );
+
+    /* Use the code below to filter tasks using requests to the API */
+    const tasks = computed(() => store.state.task.tasks);
+
+    watchEffect(() => {
+      store.dispatch(Actions.READ_ALL_TASKS, filter.value);
+    });
 
     store.dispatch(Actions.READ_ALL_TASKS);
     store.dispatch(Actions.READ_ALL_PROJECTS);
