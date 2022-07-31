@@ -14,17 +14,23 @@
       No tasks yet
     </BoldedBox>
   </ul>
-  <TaskEditModal :is-modal-shown="isModalShown" :onClose='closeModal' :on-save='editTask' :task='task' />
+  <TaskEditModal
+      v-if="selectedTask"
+      :is-modal-shown="isModalShown"
+      :onClose='closeModal'
+      :on-save='editTask'
+      v-model:description="selectedTask.description"
+  />
 </template>
 
 <script lang="ts">
 import { Actions } from '@/store/actions';
 import BoldedBox from '@/components/Common/BoldedBox.vue';
+import { ITask } from '@/interfaces/ITask';
 import TaskEditModal from '@/components/Task/TaskEditModal.vue';
 import TaskForms from '@/components/Task/TaskForms.vue';
 import TaskItem from '@/components/Task/TaskItem.vue';
 import { useCustomStore } from '@/store';
-import { ITask, Task } from '@/interfaces/ITask';
 import { computed, defineComponent, ref, watchEffect } from 'vue';
 
 export default defineComponent ({
@@ -40,29 +46,31 @@ export default defineComponent ({
     },
     isTasksEmpty (): boolean {
       return this.tasks.length === 0;
-    },
-    task (): Task | null {
-      if (!this.selectedTask) return null;
-      return new Task(this.selectedTask);
     }
   },
   data () {
     return {
+      originalDescription: '',
       selectedTask: null as ITask | null
     };
   },
   methods: {
     closeModal() {
+      if (!this.selectedTask) return;
+      this.selectedTask.description = this.originalDescription;
       this.selectedTask = null;
     },
-    editTask (task: ITask) {
-      this.store.dispatch(Actions.UPDATE_TASK, task).then(() => this.selectedTask = null);
+    editTask () {
+      this.selectedTask &&
+      this.store.dispatch(Actions.UPDATE_TASK, this.selectedTask)
+          .then(() => this.selectedTask = null);
     },
     saveTask (task: ITask) {
       this.store.dispatch(Actions.CREATE_TASK, task);
     },
     selectTask (task: ITask) {
       this.selectedTask = task;
+      this.originalDescription = task.description;
     }
   },
   name: 'TaskPage',

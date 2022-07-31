@@ -15,7 +15,7 @@
   ],
   "tasks": [
     {
-      "description": "Estudar Vue",
+      "description": "Estudar Vue 3",
       "durationInSeconds": 5,
       "id": 0,
       "project": {
